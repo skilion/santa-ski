@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+class Actor;
 
 class Entity
 {
@@ -9,6 +10,7 @@ protected:
 
 public:
 	virtual void update(float deltaTime) = 0;
+	virtual void collide(Actor &actor) = 0;
 
 	void draw();
 	void setPosition(float x, float y);
@@ -24,7 +26,7 @@ public:
 	virtual void slowDown() = 0;
 };
 
-class Player: public Entity
+class Player: public Actor
 {
 	struct PlayerState {
 		bool up: 1;
@@ -44,12 +46,18 @@ public:
 	static void preload();
 
 	Player();
-	void update(float deltaTime);
 
 	void goUp();
 	void goDown();
 	void goLeft();
 	void goRight();
+
+	void update(float deltaTime);
+	void collide(Actor &actor);
+	void jump();
+	void knock();
+	void knockHard();
+	void slowDown();
 };
 
 class Decal: public Entity
@@ -70,51 +78,55 @@ public:
 	Decal(Type type);
 
 	void update(float deltaTime);
+	void collide(Actor &actor);
 };
 
 
-class TriggerEntity: public Entity
+class ActiveEntity: public Entity
 {
 public:
-	virtual void collide(Actor &actor) = 0;
 };
 
-class Tree: public TriggerEntity
+class Tree: public Entity
 {
 public:
 	static void preload();
 
 	Tree();
 
+	void update(float deltaTime);
 	void collide(Actor &actor);
 };
 
-class Rock: public TriggerEntity
+class Rock: public Entity
 {
 public:
 	static void preload();
 
 	Rock();
 
+	void update(float deltaTime);
 	void collide(Actor &actor);
 };
 
-class Dune: public TriggerEntity
+class Dune: public Entity
 {
 public:
 	static void preload();
 
 	Dune();
 
+	void update(float deltaTime);
 	void collide(Actor &actor);
 };
 
-class Jump: public TriggerEntity
+class Jump: public Entity
 {
 public:
 	static void preload();
 
 	Jump();
 
+	void update(float deltaTime);
 	void collide(Actor &actor);
 };

@@ -17,6 +17,10 @@ Jump::Jump()
 	sprite.setTexture(jumpTexture);
 }
 
+void Jump::update(float deltaTime)
+{
+}
+
 void Jump::collide(Actor &actor)
 {
 	if (getBounds().intersects(actor.getBounds())) {

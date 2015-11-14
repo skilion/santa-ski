@@ -20,6 +20,10 @@ Dune::Dune()
 	if (n & 16) sprite.scale(-1, 1);
 }
 
+void Dune::update(float deltaTime)
+{
+}
+
 void Dune::collide(Actor &actor)
 {
 	if (getBounds().intersects(actor.getBounds())) {

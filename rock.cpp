@@ -19,6 +19,10 @@ Rock::Rock()
 	if (n & 16) sprite.scale(-1, 1);
 }
 
+void Rock::update(float deltaTime)
+{
+}
+
 void Rock::collide(Actor &actor)
 {
 	if (getBounds().intersects(actor.getBounds())) {

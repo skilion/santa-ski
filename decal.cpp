@@ -59,3 +59,7 @@ Decal::Decal(Decal::Type type)
 void Decal::update(float deltaTime)
 {
 }
+
+void Decal::collide(Actor &actor)
+{
+}

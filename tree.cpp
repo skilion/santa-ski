@@ -23,6 +23,10 @@ Tree::Tree()
 	if (n % 100 == 99) sprite.setTexture(trees[4], true);
 }
 
+void Tree::update(float deltaTime)
+{
+}
+
 void Tree::collide(Actor &actor)
 {
 	if (getBounds().intersects(actor.getBounds())) {

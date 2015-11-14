@@ -4,6 +4,7 @@
 using namespace sf;
 using namespace std;
 
+
 const float MIN_SPEED = 10;
 const float MAX_SPEED = 80;
 const float ACCELERATION = 50;
@@ -19,28 +20,6 @@ Player::Player()
 {
 	sprite.setTexture(frame1);
 	downTime = 0;
-}
-
-void Player::update(float deltaTime)
-{
-	downTime += deltaTime;
-	if (!state.down) {
-		downTime = 0;
-	}
-
-	Vector2f dir(0, 0);
-	if (state.up ^ state.down) {
-		if (state.up) dir.y = -1;
-		if (state.down) dir.y = 1;
-	}
-	if (state.left ^ state.right) {
-		if (state.left) dir.x = -1;
-		if (state.right) dir.x = 1;
-	}
-
-	float speed = max(MAX_SPEED, MIN_SPEED + downTime * ACCELERATION);
-
-	sprite.move(normalize(dir) * speed * deltaTime);
 }
 
 void Player::goUp()
@@ -67,3 +46,45 @@ void Player::goRight()
 	else state.right = true;
 }
 
+void Player::update(float deltaTime)
+{
+	downTime += deltaTime;
+	if (!state.down) {
+		downTime = 0;
+	}
+
+	Vector2f dir(0, 0);
+	if (state.up ^ state.down) {
+		if (state.up) dir.y = -1;
+		if (state.down) dir.y = 1;
+	}
+	if (state.left ^ state.right) {
+		if (state.left) dir.x = -1;
+		if (state.right) dir.x = 1;
+	}
+
+	float speed = max(MAX_SPEED, MIN_SPEED + downTime * ACCELERATION);
+
+	sprite.move(normalize(dir) * speed * deltaTime);
+}
+
+void Player::collide(Actor &actor)
+{
+}
+
+void Player::jump()
+{
+}
+
+void Player::knock()
+{
+}
+
+void Player::knockHard()
+{
+}
+
+void Player::slowDown()
+{
+	downTime = 0;
+}

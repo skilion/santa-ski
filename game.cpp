@@ -6,10 +6,15 @@ using namespace std;
 Game::Game()
 {
 	entities.reserve(16);
+	actors.reserve(16);
 
 	Entity *welcomeSign = new Decal(Decal::WELCOME_SIGN);
 	welcomeSign->setPosition(100, 100);
 	entities.push_back(welcomeSign);
+
+	Entity *dune = new Dune();
+	dune->setPosition(200, 400);
+	entities.push_back(dune);
 }
 
 void Game::update(float deltaTime)
@@ -17,6 +22,7 @@ void Game::update(float deltaTime)
 	player.update(deltaTime);
 	for (int i = 0; i < entities.size(); i++) {
 		if (entities[i]) entities[i]->update(deltaTime);
+		entities[i]->collide(player);
 	}
 }
 
