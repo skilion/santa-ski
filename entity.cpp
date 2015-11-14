@@ -12,3 +12,8 @@ void Entity::setPosition(float x, float y)
 {
 	sprite.setPosition(x, y);
 }
+
+FloatRect Entity::getBounds()
+{
+	return sprite.getGlobalBounds();
+}

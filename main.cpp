@@ -21,6 +21,7 @@ int main()
 	// Resource loading
 	Decal::preload();
 	Player::preload();
+	Tree::preload();
 
 	Game game;
 

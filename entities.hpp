@@ -12,6 +12,7 @@ public:
 
 	void draw();
 	void setPosition(float x, float y);
+	sf::FloatRect getBounds();
 };
 
 class Actor: public Entity
@@ -19,6 +20,7 @@ class Actor: public Entity
 public:
 	virtual void jump() = 0;
 	virtual void knock() = 0;
+	virtual void knockHard() = 0;
 	virtual void slowDown() = 0;
 };
 
@@ -68,4 +70,41 @@ public:
 	Decal(Type type);
 
 	void update(float deltaTime);
+};
+
+
+class TriggerEntity: public Entity
+{
+public:
+	virtual void collide(Actor &actor) = 0;
+};
+
+class Tree: public TriggerEntity
+{
+public:
+	static void preload();
+
+	Tree();
+
+	void collide(Actor &actor);
+};
+
+class Rock: public TriggerEntity
+{
+public:
+	static void preload();
+
+	Rock();
+
+	void collide(Actor &actor);
+};
+
+class Dune: public TriggerEntity
+{
+public:
+	static void preload();
+
+	Dune();
+
+	void collide(Actor &actor);
 };

@@ -7,6 +7,8 @@ SOURCES = \
 	global.cpp \
 	main.cpp \
 	player.cpp \
+	rock.cpp \
+	tree.cpp \
 	util.cpp
 
 game: $(SOURCES)
