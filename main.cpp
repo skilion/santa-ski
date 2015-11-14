@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include "entities.hpp"
+#include "game.hpp"
 #include "global.hpp"
 #include "util.hpp"
 using namespace sf;
@@ -18,9 +19,10 @@ int main()
 	srand(time(NULL));
 
 	// Resource loading
+	Decal::preload();
 	Player::preload();
 
-	Player player;
+	Game game;
 
 	Clock clock;
 	while (window->isOpen()) {
@@ -40,10 +42,10 @@ int main()
 				break;
 			case Event::KeyPressed:
 				switch (event.key.code) {
-				case Keyboard::Up: player.goUp(); break;
-				case Keyboard::Down: player.goDown(); break;
-				case Keyboard::Left: player.goLeft(); break;
-				case Keyboard::Right: player.goRight(); break;
+				case Keyboard::Up: game.player.goUp(); break;
+				case Keyboard::Down: game.player.goDown(); break;
+				case Keyboard::Left: game.player.goLeft(); break;
+				case Keyboard::Right: game.player.goRight(); break;
 				}
 				break;
 			}
@@ -52,10 +54,10 @@ int main()
 		float deltaTime = clock.getElapsedTime().asSeconds();
 		clock.restart();
 
-		player.update(deltaTime);
+		game.update(deltaTime);
 
 		window->clear(snowColor);
-		player.draw();
+		game.draw();
 		window->display();
     }
 

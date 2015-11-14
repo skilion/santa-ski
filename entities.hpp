@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 
 
@@ -7,8 +8,18 @@ protected:
 	sf::Sprite sprite;
 
 public:
-	virtual void draw();
 	virtual void update(float deltaTime) = 0;
+
+	void draw();
+	void setPosition(float x, float y);
+};
+
+class Actor: public Entity
+{
+public:
+	virtual void jump() = 0;
+	virtual void knock() = 0;
+	virtual void slowDown() = 0;
 };
 
 class Player: public Entity
@@ -37,4 +48,24 @@ public:
 	void goDown();
 	void goLeft();
 	void goRight();
+};
+
+class Decal: public Entity
+{
+public:
+
+	enum Type {
+		BLOOD,
+		FALL,
+		TRACKS,
+		WARNING_SIGN1,
+		WARNING_SIGN2,
+		WELCOME_SIGN
+	};
+
+	static void preload();
+
+	Decal(Type type);
+
+	void update(float deltaTime);
 };

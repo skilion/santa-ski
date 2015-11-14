@@ -68,3 +68,12 @@ Vector2f normalize(const Vector2f &v)
 {
 	return v / magnitude(v);
 }
+
+Texture loadTexture(const std::string &filename)
+{
+	Texture t;
+	if (!t.loadFromFile(filename)) {
+		throw 100;
+	}
+	return t;
+}
