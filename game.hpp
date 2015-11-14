@@ -5,6 +5,7 @@
 class Game
 {
 	std::vector<Entity*> entities;
+	std::vector<Entity*> actors;
 
 public:
 

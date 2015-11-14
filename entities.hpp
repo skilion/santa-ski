@@ -108,3 +108,13 @@ public:
 
 	void collide(Actor &actor);
 };
+
+class Jump: public TriggerEntity
+{
+public:
+	static void preload();
+
+	Jump();
+
+	void collide(Actor &actor);
+};

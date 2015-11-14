@@ -6,7 +6,7 @@ using namespace sf;
 
 static Texture dunes[3];
 
-void Tree::preload()
+void Dune::preload()
 {
 	dunes[0] = loadTexture("images/dune1.png");
 	dunes[1] = loadTexture("images/dune2.png");

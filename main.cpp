@@ -22,6 +22,9 @@ int main()
 	Decal::preload();
 	Player::preload();
 	Tree::preload();
+	Rock::preload();
+	Dune::preload();
+	Jump::preload();
 
 	Game game;
 
