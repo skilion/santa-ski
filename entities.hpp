@@ -21,6 +21,7 @@ class Actor: public Entity
 {
 public:
 	virtual void jump() = 0;
+	virtual void bigJump() = 0;
 	virtual void knock() = 0;
 	virtual void knockHard() = 0;
 	virtual void slowDown() = 0;
@@ -40,6 +41,14 @@ class Player: public Actor
 
 	// time passed going downHill
 	float downTime;
+	// true if jumping
+	bool jumping;
+	// true if the jump is big (= more height)
+	bool isBigJump;
+	// true if it's the descending part of the jump
+	bool fall;
+	// height of the jump
+	float height;
 
 public:
 
@@ -55,6 +64,7 @@ public:
 	void update(float deltaTime);
 	void collide(Actor &actor);
 	void jump();
+	void bigJump();
 	void knock();
 	void knockHard();
 	void slowDown();

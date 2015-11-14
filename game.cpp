@@ -15,6 +15,10 @@ Game::Game()
 	Entity *dune = new Dune();
 	dune->setPosition(200, 400);
 	entities.push_back(dune);
+
+	Entity *jump = new Jump();
+	jump->setPosition(300, 300);
+	entities.push_back(jump);
 }
 
 void Game::update(float deltaTime)
