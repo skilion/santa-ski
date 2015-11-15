@@ -14,6 +14,7 @@ public:
 
 	void draw();
 	void setPosition(float x, float y);
+	const sf::Vector2f &getPosition();
 	sf::FloatRect getBounds();
 };
 

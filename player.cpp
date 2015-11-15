@@ -13,16 +13,20 @@ const float BIG_JUMP = 10;
 const float JUMP_SPEED = 15;
 const float FALL_SPEED = 10;
 
-static sf::Texture frame1;
+static sf::Texture frames[5];
 
 void Player::preload()
 {
-	frame1.loadFromFile("images/santa.png");
+	frames[0] = loadTexture("images/sprite_1.png");
+	frames[1] = loadTexture("images/sprite_2.png");
+	frames[2] = loadTexture("images/sprite_3.png");
+	frames[3] = loadTexture("images/sprite_4.png");
+	frames[4] = loadTexture("images/sprite_5.png");
 }
 
 Player::Player()
 {
-	sprite.setTexture(frame1);
+	sprite.setTexture(frames[1]);
 	downTime = 0;
 	jumping = false;
 }

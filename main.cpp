@@ -60,6 +60,11 @@ int main()
 
 		game.update(deltaTime);
 
+		// center on the player
+		View view = window->getView();
+		view.setCenter(game.player.getPosition());
+		window->setView(view);
+
 		window->clear(snowColor);
 		game.draw();
 		window->display();
