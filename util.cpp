@@ -1,3 +1,4 @@
+#include <cassert>
 #include <cmath>
 #include "util.hpp"
 using namespace sf;
@@ -55,7 +56,7 @@ Vector2f operator*(const Vector2f &a, float b)
 
 Vector2f operator/(const Vector2f &a, float b)
 {
-    Vector2f r(a.x * b, a.y * b);
+    Vector2f r(a.x / b, a.y / b);
     return r;
 }
 
@@ -66,6 +67,7 @@ float magnitude(const Vector2f &v)
 
 Vector2f normalize(const Vector2f &v)
 {
+	if (v.x == 0 && v.y == 0) return v;
 	return v / magnitude(v);
 }
 
@@ -73,7 +75,7 @@ Texture loadTexture(const std::string &filename)
 {
 	Texture t;
 	if (!t.loadFromFile(filename)) {
-		throw 100;
+		assert(0);
 	}
 	return t;
 }

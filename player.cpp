@@ -7,15 +7,16 @@ using namespace sf;
 using namespace std;
 
 
-const float MIN_SPEED = 2;
-const float MAX_SPEED = 80;
+const float MIN_SPEED = 40;
+const float MAX_SPEED = 200;
 const float ACCELERATION = 50;
 const float SMALL_JUMP = 8;
 const float BIG_JUMP = 10;
 const float JUMP_SPEED = 15;
 const float FALL_SPEED = 10;
+const float CRASH_STOP_TIME = 1;
 
-static sf::Texture frames[5];
+static sf::Texture frames[6];
 
 void Player::preload()
 {
@@ -24,19 +25,22 @@ void Player::preload()
 	frames[2] = loadTexture("images/sprite_3.png");
 	frames[3] = loadTexture("images/sprite_4.png");
 	frames[4] = loadTexture("images/sprite_5.png");
+	frames[5] = loadTexture("images/sprite_6.png");
 }
 
 Player::Player()
 {
-	sprite.setTexture(frames[1]);
+	sprite.setTexture(frames[3]);
 	sprite.setOrigin(16, 16);
+	speed = 0;
 	downTime = 0;
 	jumping = false;
+	crash = false;
 }
 
 void Player::goUp()
 {
-	if (jumping) return;
+	if (jumping || crash) return;
 	if (state.down) state.down = false;
 	else {
 		if (!state.up) state.up = true;
@@ -46,7 +50,7 @@ void Player::goUp()
 
 void Player::goDown()
 {
-	if (jumping) return;
+	if (jumping || crash) return;
 	if (state.up) state.up = false;
 	else {
 		if (!state.down) state.down = true;
@@ -56,7 +60,7 @@ void Player::goDown()
 
 void Player::goLeft()
 {
-	if (jumping) return;
+	if (jumping || crash) return;
 	if (state.right) state.right = false;
 	else {
 		if (!state.left) state.left = true;
@@ -66,7 +70,7 @@ void Player::goLeft()
 
 void Player::goRight()
 {
-	if (jumping) return;
+	if (jumping || crash) return;
 	if (state.left) state.left = false;
 	else {
 		if (!state.right) state.right = true;
@@ -77,7 +81,7 @@ void Player::goRight()
 void Player::update(float deltaTime)
 {
 	downTime += deltaTime;
-	if (!state.down) {
+	if (!state.down || crash) {
 		// stopped going downhill
 		downTime = 0;
 	}
@@ -122,7 +126,7 @@ void Player::update(float deltaTime)
 	case  9: sprite.setTexture(frames[2], true); xScale =  1; break;
 	case  8: sprite.setTexture(frames[0], true); xScale =  1; break;
 	case  6: sprite.setTexture(frames[4], true); xScale = -1; break;
-	case  5: sprite.setTexture(frames[4], true); xScale =  1;  break;
+	case  5: sprite.setTexture(frames[4], true); xScale =  1; break;
 	case  4: sprite.setTexture(frames[1], true); xScale =  1; break;
 	case  2: sprite.setTexture(frames[3], true); xScale = -1; break;
 	case  1: sprite.setTexture(frames[3], true); xScale =  1; break;
@@ -130,10 +134,24 @@ void Player::update(float deltaTime)
 	default: cerr << "invalid player state"; assert(0);
 	}
 
+	float speed = min(MAX_SPEED, MIN_SPEED + downTime * ACCELERATION);
 
-	// move the player
-	float speed = max(MAX_SPEED, MIN_SPEED + downTime * ACCELERATION);
-	sprite.move(normalize(dir) * speed * deltaTime);
+	if (crash) {
+		crashTime += deltaTime;
+		if (crashTime > CRASH_STOP_TIME) {
+			crash = false;
+		} else {
+			sprite.setTexture(frames[5], true);
+			speed = 0;
+		}
+	}
+
+	Vector2f velocity = normalize(dir) * speed;
+	Vector2f movement = velocity * deltaTime;
+	travelAmount += movement.y;
+	sprite.move(movement);
+
+	this->speed = magnitude(velocity);
 
 	// zoom when jumping
 	sprite.setScale(xScale * (1 + height * 0.1), 1 + height * 0.1);
@@ -162,10 +180,18 @@ void Player::bigJump()
 
 void Player::knock()
 {
+	if (!crash && speed > MIN_SPEED * 2) {
+		crash = true;
+		crashTime = 0;
+		downTime = 0;
+		state.up = state.down = state.left = state.right = false;
+	}
 }
 
 void Player::knockHard()
 {
+	// todo
+	knock();
 }
 
 void Player::slowDown()

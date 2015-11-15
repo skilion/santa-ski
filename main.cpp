@@ -1,3 +1,4 @@
+#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
@@ -18,13 +19,15 @@ int main()
 	window->setFramerateLimit(60);
 	srand(time(NULL));
 
-	// Resource loading
+	// load resources
 	Decal::preload();
 	Player::preload();
 	Tree::preload();
 	Rock::preload();
 	Dune::preload();
 	Jump::preload();
+	bool result = defaultFont.loadFromFile("fonts/Munro.ttf");
+	assert(result);
 
 	Game game;
 

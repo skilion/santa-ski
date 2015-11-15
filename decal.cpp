@@ -9,7 +9,7 @@ static Texture blood[2];
 static Texture fall[2];
 static Texture tracks[2];
 static Texture warningSign[2];
-static Texture welcomeSign;
+static Texture welcomeSign, welcomeSign2;
 
 void Decal::preload()
 {
@@ -22,6 +22,7 @@ void Decal::preload()
 	warningSign[0] = loadTexture("images/warning_sign1.png");
 	warningSign[1] = loadTexture("images/warning_sign2.png");
 	welcomeSign = loadTexture("images/welcome_sign.png");
+	welcomeSign2 = loadTexture("images/welcome_sign2.png");
 }
 
 Decal::Decal(Decal::Type type)
@@ -49,6 +50,9 @@ Decal::Decal(Decal::Type type)
 		break;
 	case WELCOME_SIGN:
 		sprite.setTexture(welcomeSign);
+		break;
+	case WELCOME_SIGN2:
+		sprite.setTexture(welcomeSign2);
 		break;
 	default:
 		cerr << "invalid decal" << endl;

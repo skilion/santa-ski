@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
@@ -7,3 +8,4 @@ const int HEIGHT = 480;
 const sf::Color snowColor = sf:: Color(230, 230, 240);
 
 extern sf::RenderWindow *window;
+extern sf::Font defaultFont;

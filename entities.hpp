@@ -42,6 +42,7 @@ class Player: public Actor
 
 	// time passed going downHill
 	float downTime;
+
 	// true if jumping
 	bool jumping;
 	// true if the jump is big (= more height)
@@ -51,7 +52,16 @@ class Player: public Actor
 	// height of the jump
 	float height;
 
+	// true if the player has crashed
+	bool crash;
+	// time spent after crash
+	float crashTime;
+
 public:
+	float speed;
+
+	// distance traveled in the vertical direction
+	float travelAmount;
 
 	static void preload();
 
@@ -81,7 +91,8 @@ public:
 		TRACKS,
 		WARNING_SIGN1,
 		WARNING_SIGN2,
-		WELCOME_SIGN
+		WELCOME_SIGN,
+		WELCOME_SIGN2
 	};
 
 	static void preload();
@@ -141,3 +152,16 @@ public:
 	void update(float deltaTime);
 	void collide(Actor &actor);
 };
+
+class Monster: public Actor
+{
+public:
+	void update(float deltaTime);
+	void collide(Actor &actor);
+	void jump();
+	void bigJump();
+	void knock();
+	void knockHard();
+	void slowDown();
+};
+
