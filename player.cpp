@@ -84,7 +84,11 @@ void Player::update(float deltaTime)
 	downTime += deltaTime;
 	if (!state.down || crash) {
 		// stopped going downhill
-		downTime = 0;
+		if (state.up) downTime = 0;
+		else {
+			// slow down
+			downTime = fmin(MAX_SPEED, downTime - downTime * 2 * deltaTime);
+		}
 	}
 
 	if (jumping) {
@@ -181,7 +185,7 @@ void Player::bigJump()
 
 void Player::knock()
 {
-	if (!jumping && !crash && speed > MIN_SPEED * 2) {
+	if (!jumping && !crash && downTime > 3) {
 		crash = true;
 		crashTime = 0;
 		downTime = 0;
