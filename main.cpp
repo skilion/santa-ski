@@ -11,13 +11,25 @@
 using namespace sf;
 using namespace std;
 
+// substitute rand with a xorshift
+int x, y, z, w;
+int rand() {
+    int t = x ^ (x << 11);
+    x = y; y = z; z = w;
+    return w = w ^ (w >> 19) ^ t ^ (t >> 8);
+}
 
 int main()
 {
+	// init xorshift, badly
+	x = time(NULL);
+	y = time(NULL) * 1234567;
+	z = time(NULL) * 98765;
+	w = time(NULL) * 45678;
+
 	window = new RenderWindow(VideoMode(WIDTH, HEIGHT), "Santa Ski");
 	window->setVerticalSyncEnabled(true);
 	window->setFramerateLimit(60);
-	srand(time(NULL));
 
 	// load resources
 	Decal::preload();

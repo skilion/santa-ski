@@ -7,8 +7,8 @@ using namespace sf;
 using namespace std;
 
 
-const float SPEED = 150;
-const float EAT_FRAME_DURATION = 2;
+const float SPEED = 160;
+const float EAT_FRAME_DURATION = 3;
 
 static sf::Texture frames[5];
 

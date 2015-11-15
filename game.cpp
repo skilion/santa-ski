@@ -89,7 +89,7 @@ void Game::draw()
 
 	textStream.str(string());
 	textStream << "Distance: ";
-	textStream << (int) player.travelAmount;
+	textStream << (int) player.travelAmount / 100;
 	text.setString(textStream.str());
 	text.setPosition(originX, originY + 40);
 	window->draw(text);
