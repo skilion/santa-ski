@@ -1,4 +1,6 @@
+#include <cassert>
 #include <cmath>
+#include <iostream>
 #include "entities.hpp"
 #include "util.hpp"
 using namespace sf;
@@ -27,6 +29,7 @@ void Player::preload()
 Player::Player()
 {
 	sprite.setTexture(frames[1]);
+	sprite.setOrigin(16, 16);
 	downTime = 0;
 	jumping = false;
 }
@@ -35,28 +38,40 @@ void Player::goUp()
 {
 	if (jumping) return;
 	if (state.down) state.down = false;
-	else state.up = true;
+	else {
+		if (!state.up) state.up = true;
+		else state.left = state.right = false;
+	}
 }
 
 void Player::goDown()
 {
 	if (jumping) return;
 	if (state.up) state.up = false;
-	else state.down = true;
+	else {
+		if (!state.down) state.down = true;
+		else state.left = state.right = false;
+	}
 }
 
 void Player::goLeft()
 {
 	if (jumping) return;
 	if (state.right) state.right = false;
-	else state.left = true;
+	else {
+		if (!state.left) state.left = true;
+		else state.up = state.down = false;
+	}
 }
 
 void Player::goRight()
 {
 	if (jumping) return;
 	if (state.left) state.left = false;
-	else state.right = true;
+	else {
+		if (!state.right) state.right = true;
+		else state.up = state.down = false;
+	}
 }
 
 void Player::update(float deltaTime)
@@ -99,10 +114,29 @@ void Player::update(float deltaTime)
 		if (state.right) dir.x = 1;
 	}
 
-	float speed = max(MAX_SPEED, MIN_SPEED + downTime * ACCELERATION);
+	// set the correct texture
+	int id = state.up << 3 | state.down << 2 | state.left << 1 | state.right;
+	float xScale = 1;
+	switch (id) {
+	case 10: sprite.setTexture(frames[2], true); xScale = -1; break;
+	case  9: sprite.setTexture(frames[2], true); xScale =  1; break;
+	case  8: sprite.setTexture(frames[0], true); xScale =  1; break;
+	case  6: sprite.setTexture(frames[4], true); xScale = -1; break;
+	case  5: sprite.setTexture(frames[4], true); xScale =  1;  break;
+	case  4: sprite.setTexture(frames[1], true); xScale =  1; break;
+	case  2: sprite.setTexture(frames[3], true); xScale = -1; break;
+	case  1: sprite.setTexture(frames[3], true); xScale =  1; break;
+	case  0: break;
+	default: cerr << "invalid player state"; assert(0);
+	}
 
+
+	// move the player
+	float speed = max(MAX_SPEED, MIN_SPEED + downTime * ACCELERATION);
 	sprite.move(normalize(dir) * speed * deltaTime);
-	sprite.setScale(1 + height * 0.1, 1 + height * 0.1);
+
+	// zoom when jumping
+	sprite.setScale(xScale * (1 + height * 0.1), 1 + height * 0.1);
 }
 
 void Player::collide(Actor &actor)
