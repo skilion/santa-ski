@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 class Actor;
+class Game;
 
 class Entity
 {
@@ -92,7 +93,7 @@ public:
 		WARNING_SIGN1,
 		WARNING_SIGN2,
 		WELCOME_SIGN,
-		WELCOME_SIGN2
+		WELCOME_SIGN2,
 	};
 
 	static void preload();
@@ -155,7 +156,23 @@ public:
 
 class Monster: public Actor
 {
+	enum State {
+		CHASING,
+		EATING,
+		CELEBRATING
+	} state;
+
+	Game *game;
+
+	// for animations
+	float time;
+	float eatingTime;
+
 public:
+	static void preload();
+
+	Monster(Game *game);
+
 	void update(float deltaTime);
 	void collide(Actor &actor);
 	void jump();
@@ -164,4 +181,3 @@ public:
 	void knockHard();
 	void slowDown();
 };
-

@@ -31,22 +31,22 @@ Decal::Decal(Decal::Type type)
 	switch (type) {
 	case BLOOD:
 		sprite.setTexture(blood[n % 1]);
-		if (n & 16) sprite.scale(-1, 1);
+		if (n & 16) sprite.setScale(-1, 1);
 		break;
 	case FALL:
 		sprite.setTexture(fall[n % 1]);
-		if (n & 16) sprite.scale(-1, 1);
+		if (n & 16) sprite.setScale(-1, 1);
 		break;
 	case TRACKS:
 		sprite.setTexture(tracks[n % 1]);
-		if (n & 16) sprite.scale(-1, 1);
+		if (n & 16) sprite.setScale(-1, 1);
 		break;
 	case WARNING_SIGN1:
 		sprite.setTexture(warningSign[0]);
 		break;
 	case WARNING_SIGN2:
 		sprite.setTexture(warningSign[1]);
-		if (n & 16) sprite.scale(-1, 1);
+		if (n & 16) sprite.setScale(-1, 1);
 		break;
 	case WELCOME_SIGN:
 		sprite.setTexture(welcomeSign);

@@ -48,6 +48,12 @@ View getLetterboxView(int desiredWidth, int desiredHeight, int windowWidth, int 
 	return view;
 }
 
+Vector2f operator-(const sf::Vector2f &a, const sf::Vector2f &b)
+{
+    Vector2f r(a.x - b.x, a.y - b.y);
+    return r;
+}
+
 Vector2f operator*(const Vector2f &a, float b)
 {
     Vector2f r(a.x * b, a.y * b);

@@ -6,6 +6,10 @@ class Game
 	std::vector<Entity*> entities;
 	std::vector<ActiveEntity*> actors;
 
+	// start true enables the monster
+	// end true disable the player
+	bool start, end;
+
 	// area where game items are present
 	sf::FloatRect gameArea;
 	sf::Vector2f areaCenter;
@@ -17,10 +21,13 @@ class Game
 public:
 
 	Player player;
+	Monster *monster;
 
 	Game();
 
 	void update(float deltaTime);
 	void draw();
 
+	void begin();
+	void finish();
 };

@@ -27,21 +27,36 @@ Game::Game()
 	welcomeSign2->setPosition(200, 100);
 	entities.push_back(welcomeSign2);
 
+	monster = new Monster(this);
+
+	start = end = false;
 	updateGameArea();
 }
 
 void Game::update(float deltaTime)
 {
-	player.update(deltaTime);
 	for (int i = 0; i < entities.size(); i++) {
 		if (entities[i]) entities[i]->update(deltaTime);
 		entities[i]->collide(player);
+	}
+
+	// special entities
+	if (!end) player.update(deltaTime);
+	if (start) {
+		monster->collide(player);
+		monster->update(deltaTime);
 	}
 
 	// test if it time to update the game area
 	Vector2f playerPos = player.getPosition();
 	if ((abs(playerPos.x - areaCenter.x) > AREA_DIFF) || (abs(playerPos.y - areaCenter.y) > AREA_DIFF)) {
 		updateGameArea();
+	}
+
+
+	// monster activation
+	if (!start && (player.travelAmount > PART2_LENGTH || player.travelAmount < -200)) {
+		begin();
 	}
 }
 
@@ -50,7 +65,10 @@ void Game::draw()
 	for (int i = 0; i < entities.size(); i++) {
 		entities[i]->draw();
 	}
-	player.draw();
+
+	// special entities
+	if (!end) player.draw();
+	if (start) monster->draw();
 
 	const View &view = window->getView();
 	float originX = view.getCenter().x - WIDTH / 2;
@@ -64,7 +82,7 @@ void Game::draw()
 
 	textStream.str(string());
 	textStream << "Speed: ";
-	textStream << (int) player.speed;
+	textStream << (int) player.speed / 10;
 	text.setString(textStream.str());
 	text.setPosition(originX, originY);
 	window->draw(text);
@@ -120,12 +138,31 @@ void Game::fillAt(float x, float y)
 		invDensity = 40;
 	} else if (y < PART3_LENGTH) {
 		invDensity = 20;
+	} else {
+		invDensity = 10;
 	}
 	if (rand() % invDensity == 1) {
 		Entity *entity;
-		switch (rand() % 6) {
+		switch (rand() % 9) {
 		case 0:
-			entity = new Decal(Decal::TRACKS);
+			{
+				Decal::Type type;
+				int n = rand() % 100;
+				if (n < 10) type = Decal::BLOOD;
+				else if (n < 50)  type = Decal::FALL;
+				else if (n < 80)  type = Decal::TRACKS;
+				else if (n < 90)  type = Decal::WARNING_SIGN1;
+				else if (n < 100)  type = Decal::WARNING_SIGN2;
+				// skip signs
+				if (y < PART2_LENGTH) {
+					if (type >= Decal::WARNING_SIGN1) type = Decal::TRACKS;
+				}
+				// skip blood
+				if (y < PART3_LENGTH) {
+					if (type == Decal::BLOOD) type = Decal::FALL;
+				}
+				entity = new Decal(type);
+			}
 			break;
 		case 1:
 		case 2:
@@ -133,13 +170,29 @@ void Game::fillAt(float x, float y)
 			entity = new Tree();
 			break;
 		case 4:
+		case 5:
 			entity = new Rock();
 			break;
-		case 5:
+		case 6:
 			entity = new Jump();
 			break;
+		case 7:
+		case 8:
+			entity = new Dune();
 		}
 		entity->setPosition(x + rand() % 10, y + rand() % 10);
 		entities.push_back(entity);
 	}
+}
+
+void Game::begin()
+{
+	Vector2f pos = player.getPosition();
+	monster->setPosition(pos.x - 500, pos.y - 500);
+	start = true;
+}
+
+void Game::finish()
+{
+	end = true;
 }

@@ -26,6 +26,7 @@ int main()
 	Rock::preload();
 	Dune::preload();
 	Jump::preload();
+	Monster::preload();
 	bool result = defaultFont.loadFromFile("fonts/Munro.ttf");
 	assert(result);
 

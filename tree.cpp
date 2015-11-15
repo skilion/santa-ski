@@ -29,6 +29,7 @@ void Tree::update(float deltaTime)
 
 void Tree::collide(Actor &actor)
 {
+	// reduce the tree bounds
 	if (getBounds().intersects(actor.getBounds())) {
 		actor.knock();
 	}

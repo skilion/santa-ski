@@ -20,5 +20,11 @@ const Vector2f &Entity::getPosition()
 
 FloatRect Entity::getBounds()
 {
-	return sprite.getGlobalBounds();
+	const int X = 8;
+	FloatRect b = sprite.getGlobalBounds();
+	b.left += X;
+	b.top += X;
+	b.width -= X * 2;
+	b.height -= X * 2;
+	return b;
 }

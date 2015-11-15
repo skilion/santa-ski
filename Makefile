@@ -8,6 +8,7 @@ SOURCES = \
 	global.cpp \
 	jump.cpp \
 	main.cpp \
+	monster.cpp \
 	player.cpp \
 	rock.cpp \
 	tree.cpp \

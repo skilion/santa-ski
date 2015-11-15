@@ -14,7 +14,7 @@ const float SMALL_JUMP = 8;
 const float BIG_JUMP = 10;
 const float JUMP_SPEED = 15;
 const float FALL_SPEED = 10;
-const float CRASH_STOP_TIME = 1;
+const float CRASH_STOP_TIME = 2;
 
 static sf::Texture frames[6];
 
@@ -36,6 +36,7 @@ Player::Player()
 	downTime = 0;
 	jumping = false;
 	crash = false;
+	travelAmount = 0;
 }
 
 void Player::goUp()
@@ -180,7 +181,7 @@ void Player::bigJump()
 
 void Player::knock()
 {
-	if (!crash && speed > MIN_SPEED * 2) {
+	if (!jumping && !crash && speed > MIN_SPEED * 2) {
 		crash = true;
 		crashTime = 0;
 		downTime = 0;
